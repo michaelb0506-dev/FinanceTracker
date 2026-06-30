@@ -2,9 +2,6 @@
 __pycache__/
 *.py[cod]
 
-# Virtual environment
-rango/
-
 # Django
 db.sqlite3
 
