@@ -16,5 +16,3 @@ TRANSCATION
 -Date
 -type (Boolean)
 -AccountID - FK
-
-
