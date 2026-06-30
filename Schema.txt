@@ -1,0 +1,20 @@
+USER
+-UserID
+-name
+-DateOfBirth
+
+ACCOUNT
+-AccountID
+-AccountName
+-created_at
+-UserId - FK
+
+TRANSCATION
+-TranscationID
+-Ammount
+-Category
+-Date
+-type (Boolean)
+-AccountID - FK
+
+
