@@ -9,6 +9,16 @@ class Account(models.Model):
     def __str__(self):
         return self.account_name
 
+    def balance(self):
+        balance = 0
+        for transaction in self.transaction_set.all():
+            if transaction.is_income:
+                balance += transaction.amount
+            else:
+                balance -= transaction.amount
+        return balance
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
