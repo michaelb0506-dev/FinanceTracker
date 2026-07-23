@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from rango.models import Account
 
 from django.http import HttpResponse
 
 @login_required
 def home(request):
-    return render(request, 'rango/home.html')
+    accounts = Account.objects.filter(user = request.user)
+    return render(request, 'rango/home.html', {"accounts":accounts})
 
 def login_view(request):
     if request.method == 'POST':
@@ -18,8 +20,6 @@ def login_view(request):
             return redirect('/')
         else:
             return render(request, 'rango/login.html', {"error": "Invalid Username or Password"})
-
-    
     else:
         return render(request, 'rango/login.html')
           
