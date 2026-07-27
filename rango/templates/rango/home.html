@@ -4,6 +4,8 @@
     <p> {{account}} --- {{account.balance}}</p>
 {% endfor %}
 
+<a href="{% url 'rango:create_account' %}"> Create Account</a>
+
 <form method="post" action="{% url 'rango:logout' %}">
     {% csrf_token %}
     <button type="submit"> Logout </button>

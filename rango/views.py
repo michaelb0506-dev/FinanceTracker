@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from rango.models import Account
+from rango.models import Account,User
+from rango.forms import AccountForm
 
 from django.http import HttpResponse
 
@@ -22,6 +23,20 @@ def login_view(request):
             return render(request, 'rango/login.html', {"error": "Invalid Username or Password"})
     else:
         return render(request, 'rango/login.html')
-          
+    
+@login_required
+def create_account(request):
+    if request.method == 'POST':
+        form = AccountForm(request.POST)
+        if form.is_valid():
+            new_account = form.save(commit=False)
+            new_account.user = request.user
+            new_account.save()
+            return redirect('rango:home')
+        else:
+            return render(request, 'rango/create_account.html' ,{"accountform":form})
+    else:
+        accountform = AccountForm()
+        return render(request, 'rango/create_account.html', {"accountform":accountform})
        
 
