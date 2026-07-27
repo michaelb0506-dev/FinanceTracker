@@ -1,7 +1,7 @@
 <h1>Finance Tracker</h1>
 
 {% for account in accounts %}
-    <p> {{account}} --- {{account.balance}}</p>
+    <p> <a href="{% url 'rango:account_page' account.id %}">{{account}}</a> --- {{account.balance}}</p>
 {% endfor %}
 
 <a href="{% url 'rango:create_account' %}"> Create Account</a>

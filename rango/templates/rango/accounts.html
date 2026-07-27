@@ -1,0 +1,13 @@
+<h1> {{account}} </h1>
+
+{% for transaction in transactions %}
+    <p>
+        {% if transaction.is_income %}
+            {{transaction.amount}}
+        {% else %}
+            -{{transaction.amount}}
+        {% endif %}
+        {{transaction.date}} --- {{transaction.category}} --- {{transaction.description}}
+    </p>
+
+{% endfor %}

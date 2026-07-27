@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from rango.models import Account,User
+from rango.models import Account,User,Transaction
 from rango.forms import AccountForm
 
 from django.http import HttpResponse
@@ -38,5 +38,12 @@ def create_account(request):
     else:
         accountform = AccountForm()
         return render(request, 'rango/create_account.html', {"accountform":accountform})
+
+@login_required
+def account_page(request, account_id):
+    account = get_object_or_404(Account, user = request.user, id = account_id)
+    transactions = Transaction.objects.filter(account = account)
+    return render(request, 'rango/accounts.html', {"transactions":transactions, "account":account})
+    
        
 
