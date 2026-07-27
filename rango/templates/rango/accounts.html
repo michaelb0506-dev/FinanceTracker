@@ -1,5 +1,9 @@
 <h1> {{account}} </h1>
 
+<p> Balance: {{account.balance}} </p>
+
+<p> Transaction List:</p>
+
 {% for transaction in transactions %}
     <p>
         {% if transaction.is_income %}
@@ -7,7 +11,15 @@
         {% else %}
             -{{transaction.amount}}
         {% endif %}
-        {{transaction.date}} --- {{transaction.category}} --- {{transaction.description}}
+         | {{transaction.date}} | {{transaction.category}} | {{transaction.description}}
     </p>
-
 {% endfor %}
+
+<a href = "{% url 'rango:home' %}"> Return Home </a>
+
+<form method="post" action="{% url 'rango:logout' %}">
+    {% csrf_token %}
+    <button type="submit"> Logout </button>
+</form>
+
+
