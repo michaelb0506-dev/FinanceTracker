@@ -7,6 +7,7 @@ app_name = 'rango'
 urlpatterns = [
     path('', views.home, name='home'),
     path('login/', views.login_view, name='login'),
+    path('signup/', views.signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('create_account/', views.create_account, name='create_account'),
     path('accounts/<int:account_id>/',views.account_page, name='account_page'),
