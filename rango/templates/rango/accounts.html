@@ -12,6 +12,14 @@
             -{{transaction.amount}}
         {% endif %}
          | {{transaction.date}} | {{transaction.category}} | {{transaction.description}}
+        
+        <a href="{% url 'rango:edit_transaction' transaction.id %}"> Edit </a>
+
+        <form method="post" action="{% url 'rango:delete_transaction' transaction.id %}">
+            {% csrf_token %}
+            <button type="submit"> Delete </button>
+        </form>
+
     </p>
 {% endfor %}
 

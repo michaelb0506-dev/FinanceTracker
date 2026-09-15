@@ -89,6 +89,23 @@ def add_transaction(request, account_id):
     else:
         transactionform = TransactionForm(user=request.user)
         return render(request, 'rango/add_transaction.html', {"transactionform": transactionform, "account": account})
-    
-       
 
+@login_required
+def edit_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id, account__user=request.user)
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('rango:account_page', account_id=transaction.account.id)
+        else:
+            return render(request, 'rango/edit_transaction.html', {"transactionform": form, "transaction": transaction})
+    else:
+        form = TransactionForm(instance=transaction, user=request.user)
+        return render(request, 'rango/edit_transaction.html', {"transactionform": form, "transaction": transaction})
+    
+@login_required
+def delete_transaction(request, transaction_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id, account__user=request.user)
+    transaction.delete()
+    return redirect('rango:account_page', account_id=transaction.account.id)
