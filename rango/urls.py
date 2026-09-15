@@ -11,4 +11,5 @@ urlpatterns = [
     path('create_account/', views.create_account, name='create_account'),
     path('accounts/<int:account_id>/',views.account_page, name='account_page'),
     path('accounts/<int:account_id>/add_transaction/', views.add_transaction, name='add_transaction'),
+    path('create_category/<int:account_id>/', views.create_category, name='create_category'),
 ]

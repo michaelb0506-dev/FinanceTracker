@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from rango.models import Account,User,Transaction
-from rango.forms import AccountForm, TransactionForm
+from rango.forms import AccountForm, TransactionForm, CategoryForm
 
 from django.http import HttpResponse
 
@@ -40,6 +40,22 @@ def create_account(request):
         return render(request, 'rango/create_account.html', {"accountform":accountform})
 
 @login_required
+def create_category(request, account_id):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            new_category = form.save(commit=False)
+            new_category.user = request.user
+            new_category.save()
+            return redirect('rango:add_transaction', account_id=account_id)
+        else:
+            return render(request,'rango/create_category.html', {"categoryform":form})
+    else:
+        categoryform = CategoryForm()
+        return render(request, 'rango/create_category.html', {"categoryform":categoryform})
+
+
+@login_required
 def account_page(request, account_id):
     account = get_object_or_404(Account, user = request.user, id = account_id)
     transactions = Transaction.objects.filter(account = account)
@@ -49,7 +65,7 @@ def account_page(request, account_id):
 def add_transaction(request, account_id):
     account = get_object_or_404(Account, user=request.user, id=account_id)
     if request.method == 'POST':
-        form = TransactionForm(request.POST)
+        form = TransactionForm(request.POST, user=request.user)
         if form.is_valid():
             new_transaction = form.save(commit=False)
             new_transaction.account = account
@@ -58,7 +74,7 @@ def add_transaction(request, account_id):
         else:
             return render(request, 'rango/add_transaction.html', {"transactionform": form, "account" : account})
     else:
-        transactionform = TransactionForm()
+        transactionform = TransactionForm(user=request.user)
         return render(request, 'rango/add_transaction.html', {"transactionform": transactionform, "account": account})
     
        

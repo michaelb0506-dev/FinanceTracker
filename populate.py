@@ -15,9 +15,9 @@ def populate():
 
     user = User.objects.create_user(username='testuser', password='testpassword')
 
-    food = Category.objects.create(name='Food')
-    salary = Category.objects.create(name='Salary')
-    starting_balance = Category.objects.create(name='Starting Balance')
+    food = Category.objects.create(name='Food', user=user)
+    salary = Category.objects.create(name='Salary', user=user)
+    starting_balance = Category.objects.create(name='Starting Balance',user = user)
 
     current_account = Account.objects.create(account_name='Current Account', user=user)
     savings_account = Account.objects.create(account_name='Savings Account', user=user)
