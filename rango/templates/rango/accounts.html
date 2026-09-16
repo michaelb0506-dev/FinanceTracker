@@ -1,35 +1,43 @@
-<h1> {{account}} </h1>
+{% extends 'rango/base.html' %}
 
-<p> Balance: {{account.balance}} </p>
+{% block content %}
+<div class="container mt-4"></div>
+    <h2> {{account}} </h2>
 
-<p> Transaction List:</p>
+    <p class="fs-5"> Balance:<strong> £{{account.balance}} </strong> </p>
 
-{% for transaction in transactions %}
-    <p>
-        {% if transaction.is_income %}
-            {{transaction.amount}}
-        {% else %}
-            -{{transaction.amount}}
-        {% endif %}
-         | {{transaction.date}} | {{transaction.category}} | {{transaction.description}}
-        
-        <a href="{% url 'rango:edit_transaction' transaction.id %}"> Edit </a>
+    <a href="{% url 'rango:add_transaction' account.id %}" class ="btn btn-primary mb-3"> Add Transaction</a>
 
-        <form method="post" action="{% url 'rango:delete_transaction' transaction.id %}">
-            {% csrf_token %}
-            <button type="submit"> Delete </button>
-        </form>
+    <div class="list-group mb-3">
+        {% for transaction in transactions %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    {% if transaction.is_income %}
+                        <span class="text-success">{{transaction.amount}}</span>
+                    {% else %}
+                        <span class="text-danger">-{{transaction.amount}}</span>
+                    {% endif %}
+                    | {{transaction.date}} | {{transaction.category}} | {{transaction.description}}
+                </div>
+                <div>
+                    <a href="{% url 'rango:edit_transaction' transaction.id %}" class="btn btn-sm btn-outline-secondary"> Edit </a>
 
-    </p>
-{% endfor %}
+                    <form method="post" action="{% url 'rango:delete_transaction' transaction.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger"> Delete </button>
+                    </form>
+                </div>
 
-<a href="{% url 'rango:add_transaction' account.id %}"> Add Transaction</a>
+            </div>
+        {% endfor %}
+    </div>
 
-<a href = "{% url 'rango:home' %}"> Return Home </a>
+    <a href = "{% url 'rango:home' %}" class="btn btn-secondary"> Return Home </a>
 
-<form method="post" action="{% url 'rango:logout' %}">
-    {% csrf_token %}
-    <button type="submit"> Logout </button>
-</form>
-
+    <form method="post" action="{% url 'rango:logout' %}" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-secondary"> Logout </button>
+    </form>
+</div>
+{% endblock %}
 

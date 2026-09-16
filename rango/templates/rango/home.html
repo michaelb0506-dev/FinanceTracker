@@ -1,12 +1,21 @@
-<h1>Finance Tracker</h1>
+{% extends 'rango/base.html' %}
 
-{% for account in accounts %}
-    <p> <a href="{% url 'rango:account_page' account.id %}">{{account}}</a> --- {{account.balance}}</p>
-{% endfor %}
+{% block content %}
+<div class="container mt-4">
+    <div class="list-group mb-3">
+        {% for account in accounts %}
+            <a href="{% url 'rango:account_page' account.id %}" class="list-group-item d-flex justify-content-between align-items-center">
+                {{account}}
+                <span> £ {{account.balance}} </span>
+            </a>
+        {% endfor %}
+    </div>
 
-<a href="{% url 'rango:create_account' %}"> Create Account</a>
+    <a href="{% url 'rango:create_account' %} " class="btn btn-primary mb-3"> Create Account</a>
 
-<form method="post" action="{% url 'rango:logout' %}">
-    {% csrf_token %}
-    <button type="submit"> Logout </button>
-</form>
+    <form method="post" action="{% url 'rango:logout' %}">
+        {% csrf_token %}
+        <button type="submit"  class="btn btn-secondary"> Logout </button>
+    </form>
+</div>
+{% endblock %}

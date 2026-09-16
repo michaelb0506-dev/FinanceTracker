@@ -1,3 +1,6 @@
+{% extends 'rango/base.html' %}
+
+{% block content %}
 <form method="post">
       {% csrf_token %}
       {{ transactionform}}
@@ -5,3 +8,4 @@
 
       <a href="{% url 'rango:create_category' account.id %}"> Add category</a>
 </form>
+{% endblock %}
