@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
 from rango.models import Account,User,Transaction
-from rango.forms import AccountForm, TransactionForm, CategoryForm
+from rango.forms import AccountForm, TransactionForm, CategoryForm, StyledUserCreationForm
 
 from django.http import HttpResponse
 
@@ -27,14 +26,14 @@ def login_view(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = StyledUserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
             login(request, new_user)
             return redirect('rango:home')
         else:
             return render(request, 'rango/signup.html', {"signupform": form})
-    else: signupform = UserCreationForm()
+    else: signupform = StyledUserCreationForm()
     return render(request, 'rango/signup.html', {"signupform": signupform})
     
 @login_required
