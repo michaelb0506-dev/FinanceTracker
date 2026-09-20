@@ -8,26 +8,29 @@
 
     <a href="{% url 'rango:add_transaction' account.id %}" class ="btn btn-primary mb-3"> Add Transaction</a>
 
-    <div class="list-group mb-3">
+    <div class="row row-cols-1 g-2 mb-3">
         {% for transaction in transactions %}
-            <div class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    {% if transaction.is_income %}
-                        <span class="text-success">{{transaction.amount}}</span>
-                    {% else %}
-                        <span class="text-danger">-{{transaction.amount}}</span>
-                    {% endif %}
-                    | {{transaction.date}} | {{transaction.category}} | {{transaction.description}}
-                </div>
-                <div>
-                    <a href="{% url 'rango:edit_transaction' transaction.id %}" class="btn btn-sm btn-outline-secondary"> Edit </a>
+            <div class="col" >
+                <div class="card shadow-sm">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            {% if transaction.is_income %}
+                                <span class="text-success fw-bold">£{{transaction.amount}}</span>
+                            {% else %}
+                                <span class="text-danger fw-bold">-£{{transaction.amount}}</span>
+                            {% endif %}
+                            | <span class="text-muted"> | {{transaction.date}} | {{transaction.category}} | {{transaction.description}}</span>
+                        </div>
+                        <div>
+                            <a href="{% url 'rango:edit_transaction' transaction.id %}" class="btn btn-sm btn-outline-secondary"> Edit </a>
 
-                    <form method="post" action="{% url 'rango:delete_transaction' transaction.id %}" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-outline-danger"> Delete </button>
-                    </form>
+                            <form method="post" action="{% url 'rango:delete_transaction' transaction.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger"> Delete </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         {% endfor %}
     </div>
