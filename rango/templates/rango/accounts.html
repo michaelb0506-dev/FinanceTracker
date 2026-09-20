@@ -34,10 +34,6 @@
 
     <a href = "{% url 'rango:home' %}" class="btn btn-secondary"> Return Home </a>
 
-    <form method="post" action="{% url 'rango:logout' %}" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-secondary"> Logout </button>
-    </form>
 </div>
 {% endblock %}
 
