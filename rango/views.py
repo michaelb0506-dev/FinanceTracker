@@ -72,7 +72,7 @@ def create_category(request, account_id):
 @login_required
 def account_page(request, account_id):
     account = get_object_or_404(Account, user = request.user, id = account_id)
-    transactions = Transaction.objects.filter(account = account)
+    transactions = Transaction.objects.filter(account = account).order_by('-date')
     category_totals = (
         Transaction.objects.filter(account=account, is_income=False)
         .values('category__name')
