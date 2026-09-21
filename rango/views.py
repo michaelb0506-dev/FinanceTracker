@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from rango.models import Account,User,Transaction
 from rango.forms import AccountForm, TransactionForm, CategoryForm, StyledUserCreationForm
+from django.db.models import Sum
+import json
 
 from django.http import HttpResponse
 
@@ -71,7 +73,21 @@ def create_category(request, account_id):
 def account_page(request, account_id):
     account = get_object_or_404(Account, user = request.user, id = account_id)
     transactions = Transaction.objects.filter(account = account)
-    return render(request, 'rango/accounts.html', {"transactions":transactions, "account":account})
+    category_totals = (
+        Transaction.objects.filter(account=account, is_income=False)
+        .values('category__name')
+        .annotate(total=Sum('amount'))
+    )
+    category_labels = [item['category__name'] for item in category_totals]
+    category_values = [float(item['total']) for item in category_totals]
+    context = {
+        "transactions": transactions,
+        "account": account,
+        "category_labels": json.dumps(category_labels),
+        "category_values": json.dumps(category_values),
+    }
+    return render(request, 'rango/accounts.html', context)
+
 
 @login_required
 def add_transaction(request, account_id):

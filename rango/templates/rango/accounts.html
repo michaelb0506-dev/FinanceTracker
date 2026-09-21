@@ -1,7 +1,9 @@
 {% extends 'rango/base.html' %}
 
+{% load static %}
+
 {% block content %}
-<div class="container mt-4"></div>
+<div class="container mt-4">
     <h2> {{account}} </h2>
 
     <p class="fs-5"> Balance:<strong> £{{account.balance}} </strong> </p>
@@ -35,8 +37,21 @@
         {% endfor %}
     </div>
 
+    <div class="card shadow-sm mb-3 style"  style="max-width: 450px; margin: 0 auto;">
+        <div class="card-body">
+            <h5 class="card-title">Spending by Category</h5>
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+
     <a href = "{% url 'rango:home' %}" class="btn btn-secondary"> Return Home </a>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const categoryLabels = {{ category_labels|safe }};
+    const categoryValues = {{ category_values|safe }};
+</script>
+<script src="{% static 'js/category_chart.js' %}"></script>
 {% endblock %}
 
