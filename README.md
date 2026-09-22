@@ -69,7 +69,7 @@ python manage.py test
 
 ## What I Learned
 
-This was my first time building a full Django project — models, forms, views, templates, and static files all together. A few things stood out:
+This was my first time building a full Django project with models, forms, views, templates, and static files all together. A few things stood out to me during the development process:
 
 - How `ModelForm` auto-generates form fields and validation from a model, so I didn't have to write and validate each input by hand and how to customize it further (e.g. filtering a dropdown's choices based on the logged-in user).
 - Designing models with future features in mind. e.g. making `Category` its own model linked to `User`, so it could later become private per-user without a rewrite.
