@@ -1,5 +1,7 @@
 {% extends 'rango/base.html' %}
 
+{% load static %}
+
 {% block content %}
 <div class="container mt-4">
     <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
@@ -19,5 +21,22 @@
 
     <a href="{% url 'rango:create_account' %} " class="btn btn-primary mb-3"> Create Account</a>
 
+    {% if networth_labels != "[]" %}
+    <div class="card shadow-sm mb-3" style="max-width: 600px; margin: 0 auto;">
+        <div class="card-body">
+            <h5 class="card-title">Net Worth Over Time</h5>
+            <canvas id="networthChart"></canvas>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const networthLabels = {{ networth_labels|safe }};
+    const networthValues = {{ networth_values|safe }};
+</script>
+<script src="{% static 'js/networth_chart.js' %}"></script>
+
 {% endblock %}

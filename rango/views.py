@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from rango.models import Account,User,Transaction
 from rango.forms import AccountForm, TransactionForm, CategoryForm, StyledUserCreationForm
 from django.db.models import Sum
+from collections import defaultdict
 import json
 
 from django.http import HttpResponse
@@ -11,7 +12,13 @@ from django.http import HttpResponse
 @login_required
 def home(request):
     accounts = Account.objects.filter(user = request.user)
-    return render(request, 'rango/home.html', {"accounts":accounts})
+    networth_labels, networth_values = get_net_worth_over_time(request.user)
+    context = {
+        "accounts": accounts,
+        "networth_labels": json.dumps(networth_labels),
+        "networth_values": json.dumps(networth_values),
+    }
+    return render(request, 'rango/home.html', context)
 
 def login_view(request):
     if request.method == 'POST':
@@ -124,3 +131,26 @@ def delete_transaction(request, transaction_id):
     transaction = get_object_or_404(Transaction, id=transaction_id, account__user=request.user)
     transaction.delete()
     return redirect('rango:account_page', account_id=transaction.account.id)
+
+def get_net_worth_over_time(user):
+    transactions = Transaction.objects.filter(account__user=user).order_by('date')
+    
+    monthly_change = defaultdict(float)
+    for t in transactions:
+        month_key = t.date.strftime('%Y-%m')
+        amount = float(t.amount)
+        if t.is_income:
+            monthly_change[month_key] += amount
+        else:
+            monthly_change[month_key] -= amount
+    
+    sorted_months = sorted(monthly_change.keys())
+    running_total = 0
+    labels = []
+    values = []
+    for month in sorted_months:
+        running_total += monthly_change[month]
+        labels.append(month)
+        values.append(running_total)
+    
+    return labels, values
