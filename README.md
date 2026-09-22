@@ -2,20 +2,20 @@
 
 A personal finance tracker that can monitor spending and help establish habits and trends.
 
-Built as a portfolio project to practice full-stack development with Django — covering authentication, relational data modelling, CRUD workflows, and data visualization.
+Built as a portfolio project to practice full-stack development with Django. Covering authentication, relational data modelling, CRUD workflows, and data visualization.
 
 ![Homepage screenshot](screenshots/homepage.png)
 ![Account page screenshot](screenshots/account_page.png)
 
 ## Features
 
-- **User authentication** — signup, login, logout, with all data scoped to the logged-in user
-- **Accounts** — create multiple accounts (e.g. Current, Savings), each with a live-calculated balance
-- **Categories** — private, user-owned categories for organizing transactions
-- **Transactions** — full CRUD (create, edit, delete) with amount, date, category, income/expense flag, and description
-- **Spending by category chart** — a pie chart on each account page, breaking down expenses by category
-- **Net worth over time chart** — a line chart on the homepage, showing cumulative net worth trending month over month
-- **Responsive, styled UI** — built with Bootstrap 5, custom color scheme and card-based layouts
+- **User authentication**: signup, login, logout, with all data scoped to the logged-in user
+- **Accounts** : create multiple accounts (e.g. Current, Savings), each with a live-calculated balance
+- **Categories** : private, user-owned categories for organizing transactions
+- **Transactions** : full CRUD (create, edit, delete) with amount, date, category, income/expense flag, and description
+- **Spending by category chart** : a pie chart on each account page, breaking down expenses by category
+- **Net worth over time chart** : a line chart on the homepage, showing cumulative net worth trending month over month
+- **Responsive, styled UI** : built with Bootstrap 5, custom color scheme and card-based layouts
 
 ## Tech Stack
 
@@ -71,8 +71,8 @@ python manage.py test
 
 This was my first time building a full Django project — models, forms, views, templates, and static files all together. A few things stood out:
 
-- How `ModelForm` auto-generates form fields and validation from a model, so I didn't have to write and validate each input by hand — and how to customize it further (e.g. filtering a dropdown's choices based on the logged-in user).
-- Designing models with future features in mind — e.g. making `Category` its own model linked to `User`, so it could later become private per-user without a rewrite.
+- How `ModelForm` auto-generates form fields and validation from a model, so I didn't have to write and validate each input by hand and how to customize it further (e.g. filtering a dropdown's choices based on the logged-in user).
+- Designing models with future features in mind. e.g. making `Category` its own model linked to `User`, so it could later become private per-user without a rewrite.
 - Scoping every query to the logged-in user, not just in views but in forms too.
 - Integrating a JS charting library (Chart.js) into Django by passing data from the backend as JSON, rather than hardcoding it in JavaScript.
 
